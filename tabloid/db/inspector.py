@@ -1,7 +1,9 @@
-class SchemaInspector :
+class SchemaInspector:
     def __init__(self, connection):
+        # Save the connection so we can run queries
         self.connection = connection
-    # 
+
+    # Retrieve all tables in the 'public' schema.
     def fetch_tables(self):
         with self.connection.cursor() as cursor:
             cursor.execute(
@@ -16,6 +18,7 @@ class SchemaInspector :
             table_results = cursor.fetchall()
             return [row[0] for row in table_results]
     
+    # Retrieve column metadata for all tables in the 'public' schema
     def fetch_columns(self):
         with self.connection.cursor() as cursor:
             cursor.execute(
@@ -28,7 +31,9 @@ class SchemaInspector :
             )
             column_results = cursor.fetchall()
             return column_results
-    
+        
+    # Retrieves foreign key relationships between tables (table -> table links)
+    # Returns (from_table, from_column, to_table, to_column)
     def fetch_foreign_keys(self):
         with self.connection.cursor() as cursor:
             cursor.execute(

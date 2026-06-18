@@ -2,11 +2,13 @@ gitdb==4.0.12
 GitPython==3.1.50
 loguru==0.7.3
 networkx==3.6.1
+numpy==2.4.6
 psycopg==3.3.4
 psycopg-binary==3.3.4
 PyQt6==6.11.0
 PyQt6-Qt6==6.11.1
 PyQt6_sip==13.11.1
+scipy==1.17.1
 smmap==5.0.3
 typing_extensions==4.15.0
 watchdog==6.0.0
