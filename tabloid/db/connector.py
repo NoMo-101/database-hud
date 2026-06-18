@@ -9,7 +9,7 @@ class DBConnector:
         self.dbname = dbname
         self.connection = None
 
-# Opens a connection to the Postgres database
+    # Opens a connection to the Postgres database
     def connect(self):
         try:
             self.connection = psycopg.connect(
@@ -23,7 +23,7 @@ class DBConnector:
         except psycopg.OperationalError as error:
             print(f"Connection error: {error}")
             return False
-# Closes the connection if one is open    
+    # Closes the connection if one is open    
     def disconnect(self):
         if self.connection:
             self.connection.close()
