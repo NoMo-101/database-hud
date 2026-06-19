@@ -7,6 +7,7 @@ def get_connection():
 
 def init_db():
     with get_connection() as conn:
+        # Stores database connection configs
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS connections (
@@ -15,10 +16,12 @@ def init_db():
                 host TEXT,
                 port INTEGER,
                 user TEXT,
-                dbname TEXT
+                dbname TEXT,
+                UNIQUE(name, host, port, dbname)
             );
             """
         )
+        # Stores UI positions of tables in graph
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS layouts (
@@ -26,10 +29,12 @@ def init_db():
                 connection_id INTEGER,
                 table_name TEXT,
                 x REAL,
-                y REAL
+                y REAL,
+                UNIQUE(connection_id, table_name)
             );
             """
         )
+        # Stores a 'shapshot' of the schema layout
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS snapshots (
@@ -46,7 +51,7 @@ def save_layout(connection_id, table_name, x, y):
     with get_connection() as conn:
         conn.execute(
             """
-            INSERT OR REPLACE INTO layouts (connection_id, table_name, x, y) 
+            INSERT INTO layouts (connection_id, table_name, x, y) 
             VALUES (?, ?, ?, ?)
             """,
             (connection_id, table_name, x, y)
