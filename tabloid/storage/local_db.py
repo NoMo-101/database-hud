@@ -53,6 +53,8 @@ def save_layout(connection_id, table_name, x, y):
             """
             INSERT INTO layouts (connection_id, table_name, x, y) 
             VALUES (?, ?, ?, ?)
+            ON CONFLICT(connection_id, table_name)
+            DO UPDATE SET x = excluded.x, y = excluded.y;
             """,
             (connection_id, table_name, x, y)
         )
@@ -75,6 +77,8 @@ def save_connection(name, host, port, user, dbname):
             """
             INSERT OR REPLACE INTO connections (name, host, port, user, dbname) 
             VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(name, host, port, dbname)
+            DO UPDATE SET user = excluded.user;
             """,
             (name, host, port, user, dbname)
         )
