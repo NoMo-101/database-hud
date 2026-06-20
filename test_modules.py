@@ -48,7 +48,7 @@ import time
 def on_branch_change():
     print("Branch changed!")
 
-watcher = GitWatcher("/home/noah/projects/database-hud", on_branch_change)
+watcher = GitWatcher("/home/noah/projects/tabloid", on_branch_change)
 
 print(f"Current branch: {watcher.get_current_branch()}")
 watcher.start()
