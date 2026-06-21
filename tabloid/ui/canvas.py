@@ -1,0 +1,19 @@
+from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
+from PyQt6.QtGui import QBrush, QColor
+
+class BlastRadius(QGraphicsRectItem):
+    def __init__(self, table_name, neighbors, all_nodes):
+        super().__init__()
+        self.table_name = table_name
+        self.neighbors = neighbors
+        self.all_nodes = all_nodes
+    
+    def mousePressEvent(self, event: QGraphicsSceneMouseEvent | None) -> None:
+        for node in self.all_nodes:
+            if node.table_name in self.neighbors:
+                node.setBrush(QBrush(QColor("yellow")))
+            elif node.table_name == self.table_name:
+                node.setBrush(QBrush(QColor("blue")))
+            else:
+                node.setBrush(QBrush(QColor("white")))
+        return super().mousePressEvent(event)

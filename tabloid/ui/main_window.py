@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QGraphic
 from tabloid.db.connector import DBConnector
 from tabloid.db.inspector import SchemaInspector
 from tabloid.engine.layout import LayoutEngine
-
-
+from tabloid.ui.canvas import BlastRadius
+import networkx as nx
 
 class UIWindow(QMainWindow):
     def __init__(self):
@@ -30,15 +30,25 @@ class UIWindow(QMainWindow):
         self.tables = tables
         self.foreign_keys = foreign_keys
         self.positions = positions
+        self.graph = layout.build_graph()
     
     def render_schema(self):
+        all_nodes = []
+        node_map = {}
+
         for table_name, pos in self.positions.items():
             x = float(pos[0]) * 400 + 500
             y = float(pos[1]) * 400 + 400
-            self.scene.addRect(x, y, 160, 60)
+            neighbors = list(self.graph.neighbors(table_name))
+            node = BlastRadius(table_name, neighbors, all_nodes)
+            node.setRect(x, y, 160, 60)
+            self.scene.addItem(node)
+            all_nodes.append(node)
+            node_map[table_name] = node
             text = self.scene.addText(table_name)
             if text:
                 text.setPos(x, y)
+                
         for from_table, from_column, to_table, to_column in self.foreign_keys:
             from_pos = self.positions[from_table]
             to_pos = self.positions[to_table]
