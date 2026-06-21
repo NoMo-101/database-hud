@@ -37,7 +37,8 @@ class UIWindow(QMainWindow):
             y = float(pos[1]) * 400 + 400
             self.scene.addRect(x, y, 160, 60)
             text = self.scene.addText(table_name)
-            text.setPos(x, y)
+            if text:
+                text.setPos(x, y)
         for from_table, from_column, to_table, to_column in self.foreign_keys:
             from_pos = self.positions[from_table]
             to_pos = self.positions[to_table]
