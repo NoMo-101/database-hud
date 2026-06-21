@@ -1,16 +1,48 @@
-from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView
+from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsTextItem
+from tabloid.db.connector import DBConnector
+from tabloid.db.inspector import SchemaInspector
+from tabloid.engine.layout import LayoutEngine
+
+
 
 class UIWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Tabloid")
         self.resize(1200, 800)
-
         self.scene = QGraphicsScene()
-
         self.view = QGraphicsView(self.scene)
-
         self.setCentralWidget(self.view)
-
-        self.scene.addText("Ui is working")
+        self.load_schema()
+        self.render_schema()
         
+    
+    def load_schema(self):
+        conn = DBConnector("127.0.0.1", 5432, "tripuser", "trippassword123", "tripplanner")
+        conn.connect()
+        inspector = SchemaInspector(conn.connection)
+        
+        tables = inspector.fetch_tables()
+        foreign_keys = inspector.fetch_foreign_keys()
+        layout = LayoutEngine(tables, foreign_keys)
+        positions = layout.compute_layout()
+        
+        self.tables = tables
+        self.foreign_keys = foreign_keys
+        self.positions = positions
+    
+    def render_schema(self):
+        for table_name, pos in self.positions.items():
+            x = float(pos[0]) * 400 + 500
+            y = float(pos[1]) * 400 + 400
+            self.scene.addRect(x, y, 160, 60)
+            text = self.scene.addText(table_name)
+            text.setPos(x, y)
+        for from_table, from_column, to_table, to_column in self.foreign_keys:
+            from_pos = self.positions[from_table]
+            to_pos = self.positions[to_table]
+            x1 = float(from_pos[0]) * 400 + 500
+            y1 = float(from_pos[1]) * 400 + 400
+            x2 = float(to_pos[0]) * 400 + 500
+            y2 = float(to_pos[1]) * 400 + 400
+            self.scene.addLine(x1, y1, x2, y2)
