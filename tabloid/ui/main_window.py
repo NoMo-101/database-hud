@@ -3,7 +3,6 @@ from tabloid.db.connector import DBConnector
 from tabloid.db.inspector import SchemaInspector
 from tabloid.engine.layout import LayoutEngine
 from tabloid.ui.canvas import BlastRadius
-import networkx as nx
 
 class UIWindow(QMainWindow):
     def __init__(self):
@@ -48,7 +47,7 @@ class UIWindow(QMainWindow):
             text = self.scene.addText(table_name)
             if text:
                 text.setPos(x, y)
-                
+
         for from_table, from_column, to_table, to_column in self.foreign_keys:
             from_pos = self.positions[from_table]
             to_pos = self.positions[to_table]
