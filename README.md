@@ -120,4 +120,4 @@ This prototype proves the core concepts. The production version (Tabloid) will:
 
 ## Author
 
-Johnny Noah Moore — [github.com/NoMo-101](https://github.com/NoMo-101) — [linkedin.com/in/johnny-noah-moore](https://linkedin.com/in/johnny-noah-moore)
+Johnny Noah Moore — [github.com/NoMo-101](https://github.com/NoMo-101) — [linkedin.com/in/johnny-noah-moore]([https://linkedin.com/in/johnny-noah-moore](https://www.linkedin.com/in/johnny-moore/))
