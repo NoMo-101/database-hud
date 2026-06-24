@@ -8,6 +8,8 @@ The tool is Git-aware and automatically updates the visualization when switching
 
 > This implementation focuses on validating core concepts such as schema visualization, graph-based exploration, and Git-aware workflows. 
 
+> This project represents the Database HUD module of a larger in-progress developer platform (codename: Tabloid), focused on database observability and schema intelligence.
+
 Future iterations will focus on performance, scalability, and cross-platform support.
 
 ---
