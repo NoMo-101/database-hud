@@ -10,6 +10,8 @@ The tool is Git-aware and automatically updates the visualization when switching
 
 Future iterations will focus on performance, scalability, and cross-platform support.
 
+> This project represents the Database HUD module of a larger in-progress developer platform (codename: Tabloid), focused on database observability and schema intelligence.
+
 ---
 
 ## What it does
