@@ -1,8 +1,9 @@
-from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsTextItem
+from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QDialog ,QGraphicsTextItem
 from tabloid.db.connector import DBConnector
 from tabloid.db.inspector import SchemaInspector
 from tabloid.engine.layout import LayoutEngine
 from tabloid.ui.canvas import BlastRadius
+from tabloid.ui.connection_dialog import ConnectionDialog
 
 class UIWindow(QMainWindow):
     def __init__(self):
@@ -15,10 +16,23 @@ class UIWindow(QMainWindow):
         self.load_schema()
         self.render_schema()
         
-    
     def load_schema(self):
-        conn = DBConnector("127.0.0.1", 5432, "tripuser", "trippassword123", "tripplanner")
+        dialog = ConnectionDialog()
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            credentials = dialog.get_credentials()
+        else:
+            self.close()
+            return
+        
+        conn = DBConnector(
+            credentials["host"],
+            credentials["port"],
+            credentials["user"],
+            credentials["password"],
+            credentials["dbname"]
+        )
         conn.connect()
+        
         inspector = SchemaInspector(conn.connection)
         
         tables = inspector.fetch_tables()
