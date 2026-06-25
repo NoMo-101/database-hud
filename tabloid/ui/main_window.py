@@ -36,8 +36,8 @@ class UIWindow(QMainWindow):
         node_map = {}
 
         for table_name, pos in self.positions.items():
-            x = float(pos[0]) * 400 + 500
-            y = float(pos[1]) * 400 + 400
+            x = float(pos[0]) * 200 + 500
+            y = float(pos[1]) * 200 + 400
             neighbors = list(self.graph.neighbors(table_name))
             node = BlastRadius(table_name, neighbors, all_nodes)
             node.setRect(x, y, 160, 60)
@@ -51,8 +51,8 @@ class UIWindow(QMainWindow):
         for from_table, from_column, to_table, to_column in self.foreign_keys:
             from_pos = self.positions[from_table]
             to_pos = self.positions[to_table]
-            x1 = float(from_pos[0]) * 400 + 500
-            y1 = float(from_pos[1]) * 400 + 400
-            x2 = float(to_pos[0]) * 400 + 500
-            y2 = float(to_pos[1]) * 400 + 400
+            x1 = float(from_pos[0]) * 200 + 500
+            y1 = float(from_pos[1]) * 200 + 400
+            x2 = float(to_pos[0]) * 200 + 500
+            y2 = float(to_pos[1]) * 200 + 400
             self.scene.addLine(x1, y1, x2, y2)
