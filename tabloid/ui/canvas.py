@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
+from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent, QGraphicsView
 from PyQt6.QtGui import QBrush, QColor
+from PyQt6.QtCore import Qt
 
 class BlastRadius(QGraphicsRectItem):
     def __init__(self, table_name, neighbors, all_nodes):
@@ -16,4 +17,15 @@ class BlastRadius(QGraphicsRectItem):
                 node.setBrush(QBrush(QColor("blue")))
             else:
                 node.setBrush(QBrush(QColor("white")))
+        return super().mousePressEvent(event)
+
+class SchemaCanvas(QGraphicsView):
+    def __init__(self, scene, reset_callback):
+        super().__init__(scene)
+        self.reset_callback = reset_callback
+
+    def mousePressEvent(self, event):
+        item = self.itemAt(event.pos())
+        if item is None:
+            self.reset_callback()
         return super().mousePressEvent(event)

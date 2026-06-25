@@ -2,8 +2,9 @@ from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QDialog 
 from tabloid.db.connector import DBConnector
 from tabloid.db.inspector import SchemaInspector
 from tabloid.engine.layout import LayoutEngine
-from tabloid.ui.canvas import BlastRadius
+from tabloid.ui.canvas import BlastRadius, SchemaCanvas
 from tabloid.ui.connection_dialog import ConnectionDialog
+from PyQt6.QtGui import QBrush, QColor
 
 class UIWindow(QMainWindow):
     def __init__(self):
@@ -11,7 +12,7 @@ class UIWindow(QMainWindow):
         self.setWindowTitle("Tabloid")
         self.resize(1200, 800)
         self.scene = QGraphicsScene()
-        self.view = QGraphicsView(self.scene)
+        self.view = SchemaCanvas(self.scene, self.reset_colors)
         self.setCentralWidget(self.view)
         self.load_schema()
         self.render_schema()
@@ -70,3 +71,8 @@ class UIWindow(QMainWindow):
             x2 = float(to_pos[0]) * 200 + 500
             y2 = float(to_pos[1]) * 200 + 400
             self.scene.addLine(x1, y1, x2, y2)
+    
+    def reset_colors(self):
+        for item in self.scene.items():
+            if isinstance(item, BlastRadius):
+                item.setBrush(QBrush(QColor("white")))
