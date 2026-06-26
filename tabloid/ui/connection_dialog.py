@@ -30,7 +30,7 @@ class ConnectionDialog(QDialog):
     def get_credentials(self):
         return {
             "host": self.host_input.text(),
-            "port": int(self.port_input.text()),
+            "port": int(self.port_input.text()) if self.port_input.text().strip() else 5432,
             "user": self.user_input.text(),
             "password": self.password_input.text(),
             "dbname": self.dbname_input.text()

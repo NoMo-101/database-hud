@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QGraphicsView, QDialog ,QGraphicsTextItem
+from PyQt6.QtWidgets import QMainWindow, QGraphicsScene, QDialog, QMessageBox
 from tabloid.db.connector import DBConnector
 from tabloid.db.inspector import SchemaInspector
 from tabloid.engine.layout import LayoutEngine
@@ -32,7 +32,11 @@ class UIWindow(QMainWindow):
             credentials["password"],
             credentials["dbname"]
         )
-        conn.connect()
+
+        if not conn.connect():
+            QMessageBox.critical(self, "Connection Failed", "Could not connect to database. Check your credentials.")
+            self.close()
+            return
         
         inspector = SchemaInspector(conn.connection)
         
