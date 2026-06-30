@@ -1,4 +1,7 @@
 import psycopg
+import logging
+
+logger = logging.getLogger(__name__)
 
 class DBConnector:
     def __init__(self, host, port, user, password, dbname):
@@ -25,7 +28,8 @@ class DBConnector:
                 )
             return True
         except psycopg.OperationalError as error:
-            raise RuntimeError(f"Connection error: {error}")
+            logger.exception(f"Connection error: {error}")
+            return False
     
     # Closes the connection if one is open    
     def disconnect(self):
